@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
 import org.apache.maven.execution.MavenSession;
 import org.codehaus.plexus.logging.Logger;
 import org.eclipse.jgit.api.Git;
@@ -63,7 +65,23 @@ public class GitRevisionGenerator implements RevisionGenerator {
         Ref head = repo.getRef("HEAD");
         if (head != null && head.getObjectId() != null) {
             String branch = safeBranchName(repo.getBranch());
+            String fullHash = head.getObjectId().abbreviate(40).name();
             String hash = head.getObjectId().abbreviate(5).name();
+
+            if (fullHash.equals(branch)) {
+                logger.warn("We are on a detached head");
+                try {
+                    List<Ref> branches = git.branchList().call();
+                    for (Ref branchRef : branches) {
+                        if (!branchRef.getName().equals("HEAD") && branchRef.getObjectId().name().equals(branch)) {
+                            branch = branchRef.getName().substring(11);
+                            break;
+                        }
+                    }
+                } catch (GitAPIException ex) {
+                    throw new RevisionGeneratorException("Issue getting branches", ex);
+                }
+            }
 
             long commitTime = 0;
             try {
