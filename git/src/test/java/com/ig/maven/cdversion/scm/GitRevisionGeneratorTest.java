@@ -166,7 +166,7 @@ public class GitRevisionGeneratorTest {
             
         String branch = "master";
         String hash = UUID.randomUUID().toString().replaceAll("-", "");
-        String abbreviatedHash = hash.substring(0, 5);
+        String abbreviatedHash = hash.substring(0, 7);
         AbbreviatedObjectId abbreviatedObjectId = AbbreviatedObjectId.fromString(abbreviatedHash);
         AbbreviatedObjectId fullObjectId = AbbreviatedObjectId.fromString(hash);
 
@@ -183,7 +183,7 @@ public class GitRevisionGeneratorTest {
         when(repo.getRef(eq("HEAD"))).thenReturn(headRef);
         when(headRef.getObjectId()).thenReturn(headObjectId);
         when(headObjectId.abbreviate(eq(40))).thenReturn(fullObjectId);
-        when(headObjectId.abbreviate(eq(5))).thenReturn(abbreviatedObjectId);
+        when(headObjectId.abbreviate(eq(7))).thenReturn(abbreviatedObjectId);
         when(git.log()).thenReturn(logCmd);
         when(logCmd.setMaxCount(1)).thenReturn(logCmd);
         when(logCmd.call()).thenThrow(exception);
@@ -202,7 +202,7 @@ public class GitRevisionGeneratorTest {
             verify(repo).getBranch();
             verify(headRef, times(3)).getObjectId();
             verify(headObjectId).abbreviate(eq(40));
-            verify(headObjectId).abbreviate(eq(5));
+            verify(headObjectId).abbreviate(eq(7));
             verify(logCmd).setMaxCount(eq(1));
             verify(logCmd).call();
             verifyNoMoreInteractions(git);
@@ -222,7 +222,7 @@ public class GitRevisionGeneratorTest {
 
         String branch = "master";
         String hash = UUID.randomUUID().toString().replaceAll("-", "")+UUID.randomUUID().toString().replaceAll("-", "").substring(0,8);
-        String abbreviatedHash = hash.substring(0, 5);
+        String abbreviatedHash = hash.substring(0, 7);
         AbbreviatedObjectId abbreviatedObjectId = AbbreviatedObjectId.fromString(abbreviatedHash);
         AbbreviatedObjectId fullObjectId = AbbreviatedObjectId.fromString(hash);
         int commitTime = (int) (System.currentTimeMillis()/1000);
@@ -244,7 +244,7 @@ public class GitRevisionGeneratorTest {
         when(repo.getRef(eq("HEAD"))).thenReturn(headRef);
         when(headRef.getObjectId()).thenReturn(headObjectId);
         when(headObjectId.abbreviate(eq(40))).thenReturn(fullObjectId);
-        when(headObjectId.abbreviate(eq(5))).thenReturn(abbreviatedObjectId);
+        when(headObjectId.abbreviate(eq(7))).thenReturn(abbreviatedObjectId);
         when(git.log()).thenReturn(logCmd);
         when(logCmd.setMaxCount(1)).thenReturn(logCmd);
         when(logCmd.call()).thenReturn(Arrays.asList(headCommit));
@@ -265,7 +265,7 @@ public class GitRevisionGeneratorTest {
             verify(repo).getBranch();
             verify(headRef, times(3)).getObjectId();
             verify(headObjectId).abbreviate(eq(40));
-            verify(headObjectId).abbreviate(eq(5));
+            verify(headObjectId).abbreviate(eq(7));
             verify(logCmd).setMaxCount(eq(1));
             verify(logCmd).call();
             verify(git).status();
@@ -296,7 +296,7 @@ public class GitRevisionGeneratorTest {
             IOException {
 
         String hash = UUID.randomUUID().toString().replaceAll("-", "") + UUID.randomUUID().toString().replaceAll("-", "").substring(0, 8);
-        String abbreviatedHash = hash.substring(0, 5);
+        String abbreviatedHash = hash.substring(0, 7);
         AbbreviatedObjectId abbreviatedObjectId = AbbreviatedObjectId.fromString(abbreviatedHash);
         AbbreviatedObjectId fullObjectId = AbbreviatedObjectId.fromString(hash);
         int commitTime = (int) (System.currentTimeMillis() / 1000);
@@ -316,7 +316,7 @@ public class GitRevisionGeneratorTest {
         when(repo.getBranch()).thenReturn(branch);
         when(headRef.getObjectId()).thenReturn(headObjectId);
         when(headObjectId.abbreviate(eq(40))).thenReturn(fullObjectId);
-        when(headObjectId.abbreviate(eq(5))).thenReturn(abbreviatedObjectId);
+        when(headObjectId.abbreviate(eq(7))).thenReturn(abbreviatedObjectId);
         when(git.log()).thenReturn(logCmd);
         when(logCmd.setMaxCount(1)).thenReturn(logCmd);
         when(logCmd.call()).thenReturn(Arrays.asList(headCommit));
@@ -327,7 +327,7 @@ public class GitRevisionGeneratorTest {
         try {
             item.init(git, logger);
             
-            SimpleDateFormat commitFmt = new SimpleDateFormat("yyMMdd.HHmmss");
+            SimpleDateFormat commitFmt = new SimpleDateFormat("yyyyMMdd.HHmmss");
             Date commitDate;
             if (dirty) {
                 commitDate = new Date(((long)commitTime+1)*1000);
@@ -347,7 +347,7 @@ public class GitRevisionGeneratorTest {
             verify(repo).getBranch();
             verify(headRef, times(3)).getObjectId();
             verify(headObjectId).abbreviate(eq(40));
-            verify(headObjectId).abbreviate(eq(5));
+            verify(headObjectId).abbreviate(eq(7));
             verify(logCmd).setMaxCount(eq(1));
             verify(logCmd).call();
             verify(git).status();

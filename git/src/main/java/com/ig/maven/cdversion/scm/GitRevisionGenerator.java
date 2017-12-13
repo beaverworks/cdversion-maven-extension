@@ -66,7 +66,7 @@ public class GitRevisionGenerator implements RevisionGenerator {
         if (head != null && head.getObjectId() != null) {
             String branch = safeBranchName(repo.getBranch());
             String fullHash = head.getObjectId().abbreviate(40).name();
-            String hash = head.getObjectId().abbreviate(5).name();
+            String hash = head.getObjectId().abbreviate(7).name();
 
             if (fullHash.equals(branch)) {
                 logger.warn("We are on a detached head");
@@ -103,7 +103,7 @@ public class GitRevisionGenerator implements RevisionGenerator {
             if (dirty) {
                 commitTime += 1000;
             }
-            SimpleDateFormat commitFormatter = new SimpleDateFormat("yyMMdd.HHmmss");
+            SimpleDateFormat commitFormatter = new SimpleDateFormat("yyyyMMdd.HHmmss");
 
             StringBuilder revisionBuilder = new StringBuilder();
             revisionBuilder.append(commitFormatter.format(new Date(commitTime)))
