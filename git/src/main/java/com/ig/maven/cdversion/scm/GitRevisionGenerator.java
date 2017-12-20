@@ -107,7 +107,7 @@ public class GitRevisionGenerator implements RevisionGenerator {
 
             StringBuilder revisionBuilder = new StringBuilder();
             revisionBuilder.append(commitFormatter.format(new Date(commitTime)))
-                    .append("-")
+                    .append(".")
                     .append(hash);
             if (!"master".equals(branch)) {
                 revisionBuilder.append("-").append(branch);

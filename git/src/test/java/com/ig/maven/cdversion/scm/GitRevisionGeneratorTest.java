@@ -282,12 +282,12 @@ public class GitRevisionGeneratorTest {
     
     @Test
     @Parameters({
-        "master, false, %s-%s",
-        "master, true, %s-%s-SNAPSHOT",
-        "some_branch, false, %s-%s-some-branch",
-        "some_branch, true, %s-%s-some-branch-SNAPSHOT",
-        "bad/*+=()branch?\\naming, false, %s-%s-bad-branch-naming",
-        "bad/*+=()branch?\\naming, true, %s-%s-bad-branch-naming-SNAPSHOT"
+        "master, false, %s.%s",
+        "master, true, %s.%s-SNAPSHOT",
+        "some_branch, false, %s.%s-some-branch",
+        "some_branch, true, %s.%s-some-branch-SNAPSHOT",
+        "bad/*+=()branch?\\naming, false, %s.%s-bad-branch-naming",
+        "bad/*+=()branch?\\naming, true, %s.%s-bad-branch-naming-SNAPSHOT"
     })
     public void testInit_cleanRepoOnMaster(
             String branch, boolean dirty, String expectedRevision)
