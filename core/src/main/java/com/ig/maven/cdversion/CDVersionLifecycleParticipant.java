@@ -66,7 +66,7 @@ public abstract class CDVersionLifecycleParticipant extends AbstractMavenLifecyc
                 if (!revisionGenerator.isDirty()) {
                     pluginMerger.merge(project, plugins.getEnforcerPlugin(project));
                 }
-//                pluginMerger.merge(project, plugins.getVersionFixPlugin());
+                pluginMerger.merge(project, plugins.getVersionFixPlugin());
             }
         } catch (Exception ex) {
             throw new MavenExecutionException("Unexpected Exception during Plugin Merging", ex);

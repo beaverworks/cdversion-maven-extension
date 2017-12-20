@@ -177,7 +177,7 @@ public class CDVersionLifecycleParticipantTest {
                 mock(MavenProject.class),
                 mock(MavenProject.class));
         Plugin enforcer = mock(Plugin.class);
-//        Plugin versionFix = mock(Plugin.class);
+        Plugin versionFix = mock(Plugin.class);
 
         when(session.getProjects()).thenReturn(projects);
         when(revisionGenerator.isDirty()).thenReturn(dirty);
@@ -186,7 +186,7 @@ public class CDVersionLifecycleParticipantTest {
                 when(plugins.getEnforcerPlugin(eq(project))).thenReturn(enforcer);
             }
         }
-//        when(plugins.getVersionFixPlugin()).thenReturn(versionFix);
+        when(plugins.getVersionFixPlugin()).thenReturn(versionFix);
 
         item.afterProjectsRead(session);
 
@@ -197,46 +197,16 @@ public class CDVersionLifecycleParticipantTest {
                 verify(plugins).getEnforcerPlugin(eq(project));
             }
         }
-//        verify(plugins, times(3)).getVersionFixPlugin();
+        verify(plugins, times(3)).getVersionFixPlugin();
         for (int i = 0; i < 3; i++) {
             if (!dirty) {
                 verify(pluginMerger).merge(eq(projects.get(i)), eq(enforcer));
             }
-//            verify(pluginMerger).merge(eq(projects.get(i)), eq(versionFix));
+            verify(pluginMerger).merge(eq(projects.get(i)), eq(versionFix));
         }
         verifyNoMoreInteractions(session);
         verifyNoMoreInteractions(revisionGenerator);
         verifyNoMoreInteractions(pluginMerger);
         verifyNoMoreInteractions(plugins);
     }
-
-//    @Test
-//    public void testAfterProjectsRead_randomException()
-//            throws MavenExecutionException {
-//
-//        RuntimeException exception = new RuntimeException("random exception");
-//        exceptions.expect(MavenExecutionException.class);
-//        exceptions.expectMessage("Unexpected Exception during Plugin Merging");
-//        exceptions.expectCause(IsEqual.equalTo(exception));
-//
-//        MavenProject project = mock(MavenProject.class);
-////        Plugin versionFixPlugin = mock(Plugin.class);
-//        when(session.getProjects()).thenReturn(Arrays.asList(project));
-//        when(revisionGenerator.isDirty()).thenReturn(true);
-////        when(plugins.getVersionFixPlugin()).thenReturn(versionFixPlugin);
-////        doThrow(exception).when(pluginMerger).merge(eq(project), eq(versionFixPlugin));
-//
-//        try {
-//            item.afterProjectsRead(session);
-//        } finally {
-//            verify(session).getProjects();
-//            verify(revisionGenerator).isDirty();
-////            verify(plugins).getVersionFixPlugin();
-////            verify(pluginMerger).merge(eq(project), eq(versionFixPlugin));
-//            verifyNoMoreInteractions(session);
-//            verifyNoMoreInteractions(revisionGenerator);
-//            verifyNoMoreInteractions(pluginMerger);
-//            verifyNoMoreInteractions(plugins);
-//        }
-//    }
 }
