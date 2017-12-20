@@ -44,7 +44,7 @@ public class Plugins {
         execution.addGoal("versionfix");
 
         Plugin result = new Plugin();
-        result.setGroupId("com.iggroup.maven.cdversion");
+        result.setGroupId("com.ig.maven.cdversion");
         result.setArtifactId("versionfix-maven-plugin");
         result.setVersion("${project.version}");
         result.addExecution(execution);
