@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.maven.execution.MavenSession;
 import org.codehaus.plexus.logging.Logger;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.ListBranchCommand;
 import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
@@ -71,10 +72,10 @@ public class GitRevisionGenerator implements RevisionGenerator {
             if (fullHash.equals(branch)) {
                 logger.warn("We are on a detached head");
                 try {
-                    List<Ref> branches = git.branchList().call();
+                    List<Ref> branches = git.branchList().setListMode(ListBranchCommand.ListMode.ALL).call();
                     for (Ref branchRef : branches) {
                         if (!branchRef.getName().equals("HEAD") && branchRef.getObjectId().name().equals(branch)) {
-                            branch = branchRef.getName().substring(11);
+                            branch = branchRef.getName().substring( branchRef.getName().lastIndexOf("/")+1);
                             break;
                         }
                     }
