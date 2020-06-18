@@ -29,7 +29,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-@Mojo(name = "versionfix", defaultPhase = LifecyclePhase.VALIDATE, threadSafe = true)
+@Mojo(name = "versionfix", defaultPhase = LifecyclePhase.VERIFY, threadSafe = true)
 public class VersionFixMojo extends AbstractMojo {
 
     private static final String POM_TYPE = "pom";
@@ -80,19 +80,6 @@ public class VersionFixMojo extends AbstractMojo {
         } catch (ParserConfigurationException | SAXException | IOException | DOMException | TransformerException ex) {
             throw new MojoExecutionException("Issue generating correct pom.xml file in target directory", ex);
         }
-
-        Artifact artifact = project.getArtifact();
-        Artifact versionFixPomArtifact = new DefaultArtifact(
-                artifact.getGroupId(),
-                artifact.getArtifactId(),
-                artifact.getVersion(),
-                artifact.getScope(),
-                POM_TYPE,
-                artifact.getClassifier(),
-                artifactHandlerManager.getArtifactHandler(POM_TYPE));
-        versionFixPomArtifact.setFile(versionFixPom);
-        versionFixPomArtifact.setResolved(true);
-
-        project.getAttachedArtifacts().add(versionFixPomArtifact);
+        project.setFile(versionFixPom);
     }
 }
